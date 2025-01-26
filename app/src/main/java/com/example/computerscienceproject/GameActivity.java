@@ -26,6 +26,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+
+
         LinearLayout canvasLayout = findViewById(R.id.canvasLL);
 
         Intent intent = getIntent();
