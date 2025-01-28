@@ -47,6 +47,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+
+                                FB fb = new FB(LoginActivity.this);
+                                fb.setRecord();
+
                                 // Sign in success, update UI with the signed-in user's information
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(i);
