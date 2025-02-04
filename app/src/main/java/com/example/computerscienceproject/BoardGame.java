@@ -7,6 +7,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
+
 import Tiles.BombTile;
 import Tiles.EmptyTile;
 import Tiles.NumberTile;
@@ -23,6 +27,8 @@ public class BoardGame extends View {
     private String difficulty;
     private GameActivity gameActivity;
     private GameButtons selectedButton;
+    private FirebaseDatabase database;
+    private FirebaseAuth fbAuth;
     private final int SHOWN_X_TILES = 8, SHOWN_Y_TILES = 11;
 
     public BoardGame(Context context, String difficulty) {
@@ -40,6 +46,9 @@ public class BoardGame extends View {
 
         gameActivity = (GameActivity) context;
         updateFlagCount();
+
+        database = FirebaseDatabase.getInstance();
+        fbAuth = FirebaseAuth.getInstance();
     }
 
     private void SetMapPropertiesByDifficulty() {
@@ -149,12 +158,17 @@ public class BoardGame extends View {
         }
         if (selectedButton == GameButtons.CLICK) {
             clickTile(tiles[lastShownTileXIndex][lastShownTileYIndex]);
+
             if (isLoss(tiles[lastShownTileXIndex][lastShownTileYIndex])) {
                 gameActivity.stopOrStartTimer();
                 createDialog("Lost :(");
             }
             if (isWin()) {
                 gameActivity.stopOrStartTimer();
+
+                FBModule fbModule = new FBModule(context);
+                fbModule.SetNewRecord(difficulty, gameActivity.getTime());
+
                 createDialog("Won!!!");
             }
         }

@@ -69,13 +69,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void createNewUser(String email, String password) {
+        String uid = mAuth.getUid();
+        String name = etUsername.getText().toString();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-
+                            FBModule fbModule = new FBModule(RegisterActivity.this);
+                            fbModule.createUserStorage(name);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.

@@ -4,8 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class UpdateFIrebaseService extends Service {
-    public UpdateFIrebaseService() {
+public class UpdateFirebaseService extends Service {
+    public UpdateFirebaseService() {
     }
 
     @Override

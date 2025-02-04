@@ -117,4 +117,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     {
         timer.stopOrStartTimer();
     }
+
+    public int getTime(){return time;}
 }

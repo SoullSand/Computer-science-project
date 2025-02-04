@@ -42,15 +42,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         {
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
+
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
 
-                                FB fb = new FB(LoginActivity.this);
-                                fb.setRecord();
-
+                                FBModule fb = new FBModule(LoginActivity.this);
                                 // Sign in success, update UI with the signed-in user's information
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(i);
