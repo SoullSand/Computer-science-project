@@ -7,14 +7,13 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnGame, btnLogin, btnLeaderboard, btnSettings;
+    private Button btnGame, btnStats, btnLeaderboard, btnSettings;
     private ActivityResultLauncher<Intent> launcher;
 
     private String difficulty;
@@ -25,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btnGame = findViewById(R.id.btnGame);
-        btnLogin = findViewById(R.id.btnLogin);
+        btnStats = findViewById(R.id.btnStats);
         btnLeaderboard = findViewById(R.id.btnLeaderBoard);
         btnSettings = findViewById(R.id.btnSettings);
 
         btnGame.setOnClickListener(this);
-        btnLogin.setOnClickListener(this);
+        btnStats.setOnClickListener(this);
         btnLeaderboard.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
 
@@ -58,8 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i.putExtra("Difficulty", difficulty);
             startActivity(i);
         }
-        if (v == btnLogin) {
-
+        if (v == btnStats) {
+            Intent i = new Intent(this, StatsActivity.class);
+            startActivity(i);
         }
         if (v == btnLeaderboard) {
 
