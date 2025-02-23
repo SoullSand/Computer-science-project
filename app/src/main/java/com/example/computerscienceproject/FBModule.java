@@ -21,6 +21,8 @@ public class FBModule {
     FirebaseDatabase database;
     FirebaseAuth fbAuth;
     DatabaseReference userStorage;
+    private String username;
+    private int easyRecord, mediumRecord, hardRecord;
     Context context;
 
     public FBModule(Context context) {
@@ -33,6 +35,10 @@ public class FBModule {
 
     public void createUserStorage(String name) {
         // Write name of user and default records for future use
+        this.username = name;
+        this.easyRecord = 1000;
+        this.mediumRecord = 1000;
+        this.hardRecord = 1000;
         userStorage.child("name").setValue(name);
         userStorage.child("EASYRecord").setValue(1000);
         userStorage.child("MEDIUMRecord").setValue(1000);
@@ -51,10 +57,24 @@ public class FBModule {
                     userStorage.child(recordLocation).setValue(time);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+    }
+
+    public User GetUserStats() {
+        userStorage.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful())
+            {
+                username = task.getResult().child("name").getValue().toString();
+                easyRecord = Integer.parseInt((task.getResult().child("EASYRecord").getValue()).toString());
+                mediumRecord = Integer.parseInt((task.getResult().child("MEDIUMRecord").getValue()).toString());
+                hardRecord = Integer.parseInt((task.getResult().child("HARDRecord").getValue()).toString());
+            }
+        });
+        return new User(username, easyRecord, mediumRecord, hardRecord);
     }
 }
