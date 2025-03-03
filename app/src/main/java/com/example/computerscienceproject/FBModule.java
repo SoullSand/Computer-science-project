@@ -30,6 +30,9 @@ public class FBModule {
         this.context = context;
         fbAuth = FirebaseAuth.getInstance();
         userStorage = database.getReference(fbAuth.getUid());
+        if (context instanceof StatsActivity) {
+            GetUserStats();
+        }
 
     }
 
@@ -65,16 +68,22 @@ public class FBModule {
         });
     }
 
-    public User GetUserStats() {
-        userStorage.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful())
-            {
-                username = task.getResult().child("name").getValue().toString();
-                easyRecord = Integer.parseInt((task.getResult().child("EASYRecord").getValue()).toString());
-                mediumRecord = Integer.parseInt((task.getResult().child("MEDIUMRecord").getValue()).toString());
-                hardRecord = Integer.parseInt((task.getResult().child("HARDRecord").getValue()).toString());
+    public void GetUserStats() {
+        userStorage.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                username = snapshot.child("name").getValue().toString();
+                easyRecord = Integer.parseInt((snapshot.child("EASYRecord").getValue()).toString());
+                mediumRecord = Integer.parseInt((snapshot.child("MEDIUMRecord").getValue()).toString());
+                hardRecord = Integer.parseInt((snapshot.child("HARDRecord").getValue()).toString());
+                User user = new User(username, easyRecord, mediumRecord, hardRecord);
+                ((StatsActivity) context).SetStats(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-        return new User(username, easyRecord, mediumRecord, hardRecord);
     }
 }

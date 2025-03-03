@@ -25,21 +25,22 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        FBModule fbModule = new FBModule(this);
+
         tvUsername = findViewById(R.id.tvUsername);
         tvEasyRecord = findViewById(R.id.tvEasyRecord);
         tvMediumRecord = findViewById(R.id.tvMediumRecord);
         tvHardRecord = findViewById(R.id.tvHardRecord);
 
-        FBModule fbModule = new FBModule(this);
-        User user = fbModule.GetUserStats();
-
-        tvUsername.setText(String.valueOf(user.getName()));
-        tvEasyRecord.setText(String.valueOf(user.getEasyRecord()));
-        tvMediumRecord.setText(String.valueOf(user.getMediumRecord()));
-        tvHardRecord.setText(String.valueOf(user.getHardRecord()));
-
         btnReturn = findViewById(R.id.btnReturn);
         btnReturn.setOnClickListener(this);
+    }
+
+    public void SetStats(User user) {
+        tvUsername.setText("Username: " + user.getName());
+        tvEasyRecord.setText("Easy record: " + user.getEasyRecord());
+        tvMediumRecord.setText("Medium record: " + user.getMediumRecord());
+        tvHardRecord.setText("Hard record: " + user.getHardRecord());
     }
 
     @Override
