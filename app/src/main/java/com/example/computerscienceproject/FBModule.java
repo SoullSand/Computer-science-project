@@ -88,15 +88,18 @@ public class FBModule {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                users = new ArrayList<>();
-                // for each user file in firebase
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    String username = snap.child("name").getValue().toString();
-                    int easyRecord = Integer.parseInt((snap.child("EASYRecord").getValue()).toString());
-                    int mediumRecord = Integer.parseInt((snap.child("MEDIUMRecord").getValue()).toString());
-                    int hardRecord = Integer.parseInt((snap.child("HARDRecord").getValue()).toString());
-                    User user = new User(username, easyRecord, mediumRecord, hardRecord);
-                    users.add(user);
+                if (context instanceof LeaderboardActivity)
+                {
+                    ((LeaderboardActivity) context).ResetUserList();
+                    // for each user file in firebase
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        String username = snap.child("name").getValue().toString();
+                        int easyRecord = Integer.parseInt((snap.child("EASYRecord").getValue()).toString());
+                        int mediumRecord = Integer.parseInt((snap.child("MEDIUMRecord").getValue()).toString());
+                        int hardRecord = Integer.parseInt((snap.child("HARDRecord").getValue()).toString());
+                        User user = new User(username, easyRecord, mediumRecord, hardRecord);
+                        ((LeaderboardActivity) context).AddUserToList(user);
+                    }
                 }
             }
 

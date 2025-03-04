@@ -15,6 +15,8 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
     RecyclerView rvEasy;
     LeaderboardAdapter leaderboardAdapter;
     FBModule fbModule;
+    ArrayList<User> allUsers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +29,34 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
         btnReturn.setOnClickListener(this);
 
         fbModule = new FBModule(this);
-        ArrayList<User> allUsers = fbModule.GetUserLeaderboard();
+        allUsers = new ArrayList<User>();
 
         leaderboardAdapter = new LeaderboardAdapter(this, allUsers);
         rvEasy.setAdapter(leaderboardAdapter);
     }
+    public void AddUserToList(User user)
+    {
+        allUsers.add(user);
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+        allUsers.add(new User("a",1,1,1));
+
+        leaderboardAdapter.notifyDataSetChanged();
+    }
+    public void ResetUserList()
+    {
+        allUsers.clear();
+    }
+
 
     @Override
     public void onClick(View v) {

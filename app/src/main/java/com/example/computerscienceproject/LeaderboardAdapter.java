@@ -38,7 +38,9 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         // read eachtime from arraylist object and write to listview Item
         //getting the record of the specified position
-
+        User user = recordsList.get(position);
+        holder.tvName.setText(position+1 + "# Name: " + user.getName());
+        holder.tvRecord.setText("Record: " + user.getEasyRecord());
 
     }
 
