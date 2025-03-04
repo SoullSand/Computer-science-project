@@ -39,8 +39,15 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         // read eachtime from arraylist object and write to listview Item
         //getting the record of the specified position
         User user = recordsList.get(position);
-        holder.tvName.setText(position+1 + "# Name: " + user.getName());
-        holder.tvRecord.setText("Record: " + user.getEasyRecord());
+        holder.tvName.setText("#" + (position+1) + " Name: " + user.getName());
+        if (user.getEasyRecord() > 999)
+        {
+            holder.tvRecord.setText("Record: none");
+        }
+        else
+        {
+            holder.tvRecord.setText("Record: " + user.getEasyRecord());
+        }
 
     }
 
