@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }
         if (v == btnLeaderboard) {
-
+            Intent i = new Intent(this, LeaderboardActivity.class);
+            startActivity(i);
         }
         if (v == btnSettings) {
             Intent i = new Intent(this, SettingsActivity.class);
