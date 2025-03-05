@@ -109,8 +109,4 @@ public class FBModule {
             }
         });
     }
-    public ArrayList<User> GetUserLeaderboard()
-    {
-        return users;
-    }
 }

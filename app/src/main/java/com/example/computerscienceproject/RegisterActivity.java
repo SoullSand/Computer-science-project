@@ -52,6 +52,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (usernameLength == 0) {
             etUsername.setError("Username is required");
         }
+        else if (usernameLength > 6)
+        {
+            etUsername.setError("Your Username length must be under 7 letters long");
+        }
         if (emailLength == 0) {
             etEmail.setError("Email is required");
         }

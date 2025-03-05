@@ -66,7 +66,7 @@ public class BoardGame extends View {
                 break;
             }
             case "HARD": {
-                xMapSize = 30;
+                xMapSize = 16;
                 yMapSize = 16;
                 numberOfBombs = 99;
             }

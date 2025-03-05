@@ -30,25 +30,49 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     {
         //inflating and returning our view holder
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.custom_layout, null);
+        View view = inflater.inflate(R.layout.activity_leaderboard_adapter, null);
         return new UserViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         // read eachtime from arraylist object and write to listview Item
-        //getting the record of the specified position
         User user = recordsList.get(position);
-        holder.tvName.setText("#" + (position+1) + " Name: " + user.getName());
+        holder.tvName.setText("#" + (position+1) + "   " + user.getName());
+        SetRecordText(holder, user);
+    }
+    private void SetRecordText(UserViewHolder holder, User user)
+    {
         if (user.getEasyRecord() > 999)
         {
-            holder.tvRecord.setText("Record: none");
+            holder.tvRecord.setText("Easy: none");
         }
         else
         {
-            holder.tvRecord.setText("Record: " + user.getEasyRecord());
-        }
+            holder.tvRecord.setText("Easy: ");
+            holder.tvRecord.append(String.valueOf(user.getEasyRecord()));
 
+        }
+        if (user.getMediumRecord() > 999)
+        {
+            holder.tvRecord.append("   Medium: none");
+        }
+        else
+        {
+            holder.tvRecord.append("   Medium: ");
+            holder.tvRecord.append(String.valueOf(user.getMediumRecord()));
+
+        }
+        if (user.getHardRecord() > 999)
+        {
+            holder.tvRecord.append("   Hard: none");
+        }
+        else
+        {
+            holder.tvRecord.append("   Hard: ");
+            holder.tvRecord.append(String.valueOf(user.getHardRecord()));
+
+        }
     }
 
     @Override

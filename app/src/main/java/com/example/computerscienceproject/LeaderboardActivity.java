@@ -37,19 +37,6 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
     public void AddUserToList(User user)
     {
         allUsers.add(user);
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-        allUsers.add(new User("a",1,1,1));
-
         leaderboardAdapter.notifyDataSetChanged();
     }
     public void ResetUserList()
