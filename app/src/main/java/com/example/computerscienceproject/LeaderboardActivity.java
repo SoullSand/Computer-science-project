@@ -26,9 +26,16 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
         rvEasy.setLayoutManager(new LinearLayoutManager(this));
 
         btnReturn = findViewById(R.id.btnReturn);
-        btnReturn.setOnClickListener(this);
+        btnEasy = findViewById(R.id.btnEasy);
+        btnMedium = findViewById(R.id.btnMedium);
+        btnHard = findViewById(R.id.btnHard);
 
-        fbModule = new FBModule(this);
+        btnReturn.setOnClickListener(this);
+        btnEasy.setOnClickListener(this);
+        btnMedium.setOnClickListener(this);
+        btnHard.setOnClickListener(this);
+
+        fbModule = new FBModule(this);;
         allUsers = new ArrayList<User>();
 
         leaderboardAdapter = new LeaderboardAdapter(this, allUsers);
@@ -47,6 +54,19 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        allUsers.clear();
+        if (v == btnEasy)
+        {
+            fbModule.GetUsersFromFB("EASY");
+        }
+        if (v == btnMedium)
+        {
+            fbModule.GetUsersFromFB("MEDIUM");
+        }
+        if (v == btnHard)
+        {
+            fbModule.GetUsersFromFB("HARD");
+        }
         if (v == btnReturn)
         {
             finish();

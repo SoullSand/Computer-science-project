@@ -7,6 +7,45 @@
     tools:context=".LeaderboardActivity"
     android:background="@drawable/background">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:backgroundTint="#252222"
+            android:id="@+id/btnEasy"
+            android:text="Easy"
+            android:textSize="25dp"></Button>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:backgroundTint="#252222"
+            android:id="@+id/btnMedium"
+            android:text="Medium"
+            android:textSize="20dp"></Button>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:backgroundTint="#252222"
+            android:id="@+id/btnHard"
+            android:text="Hard"
+            android:textSize="25dp"></Button>
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnReturn"
         android:layout_width="match_parent"

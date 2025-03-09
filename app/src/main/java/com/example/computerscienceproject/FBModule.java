@@ -28,7 +28,6 @@ public class FBModule {
     FirebaseAuth fbAuth;
     DatabaseReference userStorage;
     Context context;
-    private ArrayList<User> users;
 
     public FBModule(Context context) {
         database = FirebaseDatabase.getInstance("https://computer-science-pro-default-rtdb.europe-west1.firebasedatabase.app/");
@@ -37,8 +36,7 @@ public class FBModule {
         if (context instanceof StatsActivity) {
             GetUserStats();
         }
-        users = new ArrayList<>();
-        GetUsersFromFB();
+        GetUsersFromFB("EASY");
     }
 
     public void createUserStorage(String name) {
@@ -106,11 +104,9 @@ public class FBModule {
         });
     }
 
-    private void GetUsersFromFB() {
-        DatabaseReference reference = database.getReference("Users");
-        Query query = database.getReference("Users").orderByChild("EASYRecord").limitToFirst(10);
-
-        reference.addValueEventListener(new ValueEventListener() {
+    public void GetUsersFromFB(String difficulty) {
+        Query query = database.getReference("Users").orderByChild(difficulty + "Record").limitToFirst(10);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (context instanceof LeaderboardActivity)
