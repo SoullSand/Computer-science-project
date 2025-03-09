@@ -1,14 +1,20 @@
 package com.example.computerscienceproject;
 
+import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,7 +34,6 @@ public class FBModule {
         database = FirebaseDatabase.getInstance("https://computer-science-pro-default-rtdb.europe-west1.firebasedatabase.app/");
         this.context = context;
         fbAuth = FirebaseAuth.getInstance();
-        userStorage = database.getReference(fbAuth.getUid());
         if (context instanceof StatsActivity) {
             GetUserStats();
         }
@@ -38,6 +43,7 @@ public class FBModule {
 
     public void createUserStorage(String name) {
         // Write name of user and default records for future use
+        userStorage = database.getReference("Users").child((fbAuth.getUid()));
         userStorage.child("name").setValue(name);
         userStorage.child("EASYRecord").setValue(1000);
         userStorage.child("MEDIUMRecord").setValue(1000);
@@ -45,6 +51,7 @@ public class FBModule {
     }
 
     public void SetNewRecord(String difficulty, int time) {
+        userStorage = database.getReference("Users").child((fbAuth.getUid()));
         userStorage.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -65,6 +72,7 @@ public class FBModule {
     }
 
     public void GetUserStats() {
+        userStorage = database.getReference("Users").child((fbAuth.getUid()));
         userStorage.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -73,7 +81,7 @@ public class FBModule {
                 int mediumRecord = Integer.parseInt((snapshot.child("MEDIUMRecord").getValue()).toString());
                 int hardRecord = Integer.parseInt((snapshot.child("HARDRecord").getValue()).toString());
                 User user = new User(username, easyRecord, mediumRecord, hardRecord);
-                ((StatsActivity) context).SetStats(user);
+                ((StatsActivity) context).SetStatsText(user);
             }
 
             @Override
@@ -82,9 +90,26 @@ public class FBModule {
             }
         });
     }
+    public void createNewUser(String username, String email, String password) {
+        String name = username;
+        fbAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    createUserStorage(name);
+                    ((Activity) context).finish();
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText((RegisterActivity) context, "fail register", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     private void GetUsersFromFB() {
-        DatabaseReference reference = database.getReference();
+        DatabaseReference reference = database.getReference("Users");
+        Query query = database.getReference("Users").orderByChild("EASYRecord").limitToFirst(10);
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

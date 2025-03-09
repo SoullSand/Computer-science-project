@@ -24,8 +24,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     EditText etUsername, etEmail, etPassword;
     Button btnRegister;
+    FBModule fbModule;
 
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         btnRegister.setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
+        fbModule = new FBModule(this);
     }
 
     @Override
@@ -66,28 +66,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if (usernameLength != 0 && emailLength != 0 && passwordLength > 5) {
+            String username = etUsername.getText().toString();
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
-            createNewUser(email, password);
+            fbModule.createNewUser(username, email, password);
         }
-    }
-
-    private void createNewUser(String email, String password) {
-        String uid = mAuth.getUid();
-        String name = etUsername.getText().toString();
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FBModule fbModule = new FBModule(RegisterActivity.this);
-                            fbModule.createUserStorage(name);
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(RegisterActivity.this, "fail register", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 }

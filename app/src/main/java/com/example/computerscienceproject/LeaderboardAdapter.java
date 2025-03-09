@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.Query;
+
 import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.UserViewHolder> {
@@ -22,6 +24,10 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public LeaderboardAdapter(Context context, List<User> recordsList) {
         this.context = context;
         this.recordsList = recordsList;
+
+
+        //Query query = database.getReference().orderByChild("EASY").limitToFirst(10);
+
     }
 
     @NonNull

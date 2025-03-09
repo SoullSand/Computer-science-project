@@ -1,19 +1,11 @@
 package com.example.computerscienceproject;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class StatsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,11 +28,17 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         btnReturn.setOnClickListener(this);
     }
 
-    public void SetStats(User user) {
+    public void SetStatsText(User user) {
         tvUsername.setText("Username: " + user.getName());
-        tvEasyRecord.setText("Easy record: " + user.getEasyRecord());
-        tvMediumRecord.setText("Medium record: " + user.getMediumRecord());
-        tvHardRecord.setText("Hard record: " + user.getHardRecord());
+
+        if (user.getEasyRecord() > 999) {tvEasyRecord.setText("Easy record: none");}
+        else {tvEasyRecord.setText("Easy record: " + user.getEasyRecord());}
+
+        if (user.getMediumRecord() > 999) {tvMediumRecord.setText("Medium record: none");}
+        else {tvMediumRecord.setText("Medium record: " + user.getMediumRecord());}
+
+        if (user.getHardRecord() > 999) {tvHardRecord.setText("Hard record: none");}
+        else {tvHardRecord.setText("Hard record: " + user.getHardRecord());}
     }
 
     @Override
