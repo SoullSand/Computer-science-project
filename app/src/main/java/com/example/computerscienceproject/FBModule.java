@@ -38,6 +38,10 @@ public class FBModule {
         }
         GetUsersFromFB("EASY");
     }
+    private void GetUserCountryCode()
+    {
+
+    }
 
     public void createUserStorage(String name) {
         // Write name of user and default records for future use

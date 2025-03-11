@@ -7,10 +7,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.ktx.Firebase;
-
 import Tiles.BombTile;
 import Tiles.EmptyTile;
 import Tiles.NumberTile;
@@ -27,8 +23,6 @@ public class BoardGame extends View {
     private String difficulty;
     private GameActivity gameActivity;
     private GameButtons selectedButton;
-    private FirebaseDatabase database;
-    private FirebaseAuth fbAuth;
     private final int SHOWN_X_TILES = 8, SHOWN_Y_TILES = 11;
 
     public BoardGame(Context context, String difficulty) {
@@ -47,8 +41,6 @@ public class BoardGame extends View {
         gameActivity = (GameActivity) context;
         updateFlagCount();
 
-        database = FirebaseDatabase.getInstance();
-        fbAuth = FirebaseAuth.getInstance();
     }
 
     private void SetMapPropertiesByDifficulty() {
@@ -215,20 +207,23 @@ public class BoardGame extends View {
         int tileNumber = ((NumberTile) tile).getNumber();
         int flaggedBombCount = getSurroundingFlaggedBombs(tile);
 
-        // reveals the non-bomb tiles around the tile and all empty tiles
+        /* enables the option to reveals the non-bomb tiles around the tile
+         if all the number on the tile equals to the number of the bombs flagged*/
         if (flaggedBombCount == tileNumber) {
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
+                    // makes sure checked tile isn't out of bounds
                     if (tile.getX() - i >= 0 && tile.getX() - i < yMapSize
                             && tile.getY() - j >= 0 && tile.getY() - j < xMapSize) {
                         // the current tile the loops are on
                         Tile newTile = tiles[tile.getX() - i][tile.getY() - j];
+                        // if tile is an empty tile and is hidden reveal it and redo the process
                         if (newTile.getIsHidden()
                                 && newTile instanceof EmptyTile) {
                             clickEmptyTile(newTile);
                         }
-                        if (newTile.getIsHidden()
-                                && !(newTile instanceof BombTile)) {
+                        // if tile isn't an empty tile reveal it normally
+                        else if (newTile.getIsHidden()) {
                             newTile.click();
                         }
                     }
@@ -242,8 +237,10 @@ public class BoardGame extends View {
         int flaggedBombCount = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
+                // if the checked tiles aren't out of bounds
                 if (tile.getX() - i >= 0 && tile.getX() - i < yMapSize
                         && tile.getY() - j >= 0 && tile.getY() - j < xMapSize) {
+                    // adds the number of bombs
                     if (tiles[tile.getX() - i][tile.getY() - j] instanceof BombTile
                             && tiles[tile.getX() - i][tile.getY() - j].getIsFlagged()) {
                         flaggedBombCount++;
@@ -265,24 +262,21 @@ public class BoardGame extends View {
 
     // makes sure shown map indexes don't go out of bounds
     private void validateMapPositioning() {
+        // makes sure first shown tile doesn't go out of bounds
         if (firstShownTileXIndex < 0) {
             firstShownTileXIndex = 0;
         }
         if (firstShownTileYIndex < 0) {
             firstShownTileYIndex = 0;
         }
+        //makes sure last shown tile doesn't go out of bounds because of the first shown tile
         if (firstShownTileXIndex > xMapSize - 8) {
             firstShownTileXIndex = xMapSize - 8;
         }
         if (firstShownTileYIndex > yMapSize - 11) {
             firstShownTileYIndex = yMapSize - 11;
         }
-        if (lastShownTileXIndex < 0) {
-            lastShownTileXIndex = 0;
-        }
-        if (lastShownTileYIndex < 0) {
-            lastShownTileYIndex = 0;
-        }
+        // makes sure last shown tile doesn't go out of bounds
         if (lastShownTileXIndex >= xMapSize) {
             lastShownTileXIndex = xMapSize - 1;
         }
