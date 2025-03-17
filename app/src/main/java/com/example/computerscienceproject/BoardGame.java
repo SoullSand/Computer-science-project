@@ -1,6 +1,7 @@
 package com.example.computerscienceproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +49,7 @@ public class BoardGame extends View {
             case "EASY": {
                 xMapSize = 16;
                 yMapSize = 16;
-                numberOfBombs = 20;
+                numberOfBombs = 1;
                 break;
             }
             case "MEDIUM": {
@@ -158,8 +159,11 @@ public class BoardGame extends View {
             if (isWin()) {
                 gameActivity.stopOrStartTimer();
 
-                FBModule fbModule = new FBModule(context);
-                fbModule.SetNewRecord(difficulty, gameActivity.getTime());
+                Intent intent = new Intent(context, UpdateFirebaseService.class);
+                intent.putExtra("action", "SetRecord");
+                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("time", gameActivity.getTime());
+                context.startService(intent);
 
                 createDialog("Won!!!");
             }

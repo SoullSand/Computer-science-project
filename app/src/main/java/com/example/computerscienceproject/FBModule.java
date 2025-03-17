@@ -38,10 +38,6 @@ public class FBModule {
         }
         GetUsersFromFB("EASY");
     }
-    private void GetUserCountryCode()
-    {
-
-    }
 
     public void createUserStorage(String name) {
         // Write name of user and default records for future use
@@ -93,19 +89,16 @@ public class FBModule {
         });
     }
     public void createNewUser(String username, String email, String password) {
-        String name = username;
-        fbAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    createUserStorage(name);
-                    ((Activity) context).finish();
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText((RegisterActivity) context, "fail register", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        fbAuth.createUserWithEmailAndPassword(email, password);
+        // Check if the user was created
+        if (fbAuth.getCurrentUser() != null) {
+            createUserStorage(username);
+            // Using Application context for Toast
+            Toast.makeText(context.getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+        } else {
+            // Using Application context for Toast
+            Toast.makeText(context.getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void GetUsersFromFB(String difficulty) {
