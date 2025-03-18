@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class UpdateFirebaseService extends Service {
     FBModule fbModule;
+    FirebaseAuth firebaseAuth;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -29,7 +32,11 @@ public class UpdateFirebaseService extends Service {
         String email = intent.getStringExtra("email");
         String password = intent.getStringExtra("password");
         fbModule.createNewUser(username, email, password);
-        stopSelf();
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() != null)
+        {
+            stopSelf();
+        }
     }
     private void SetRecord(Intent intent)
     {

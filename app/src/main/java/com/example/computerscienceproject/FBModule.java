@@ -2,8 +2,10 @@ package com.example.computerscienceproject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,6 +70,13 @@ public class FBModule {
             }
         });
     }
+    public void SignOut()
+    {
+        userStorage = null;
+        fbAuth.signOut();
+        Intent i = new Intent(context, LoginActivity.class);
+        context.startActivity(i);
+    }
 
     public void GetUserStats() {
         userStorage = database.getReference("Users").child((fbAuth.getUid()));
@@ -89,16 +98,12 @@ public class FBModule {
         });
     }
     public void createNewUser(String username, String email, String password) {
-        fbAuth.createUserWithEmailAndPassword(email, password);
-        // Check if the user was created
-        if (fbAuth.getCurrentUser() != null) {
-            createUserStorage(username);
-            // Using Application context for Toast
-            Toast.makeText(context.getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
-        } else {
-            // Using Application context for Toast
-            Toast.makeText(context.getApplicationContext(), "Registration failed", Toast.LENGTH_SHORT).show();
-        }
+        fbAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                createUserStorage(username);
+            }
+        });
     }
 
     public void GetUsersFromFB(String difficulty) {

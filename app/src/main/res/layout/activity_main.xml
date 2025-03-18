@@ -22,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.097" />
 
+
     <Button
         android:id="@+id/btnGame"
         android:layout_width="250dp"
@@ -32,14 +33,14 @@
         android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.127" />
+        app:layout_constraintVertical_bias="0.18" />
 
     <Button
         android:id="@+id/btnStats"
-        android:layout_width="250dp"
+        android:layout_width="180dp"
         android:layout_height="80dp"
         android:backgroundTint="#252222"
         android:text="Stats"
@@ -47,14 +48,14 @@
         android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.33" />
+        app:layout_constraintVertical_bias="0.439" />
 
     <Button
         android:id="@+id/btnSettings"
-        android:layout_width="250dp"
+        android:layout_width="180dp"
         android:layout_height="80dp"
         android:backgroundTint="#252222"
         android:text="Settings"
@@ -62,24 +63,39 @@
         android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.729" />
+        app:layout_constraintVertical_bias="0.697" />
 
     <Button
         android:id="@+id/btnLeaderBoard"
-        android:layout_width="250dp"
+        android:layout_width="180dp"
         android:layout_height="80dp"
         android:backgroundTint="#252222"
         android:text="Leaderboards"
         android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.526" />
+        app:layout_constraintVertical_bias="0.439" />
+
+    <Button
+        android:id="@+id/btnSignOut"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:backgroundTint="#252222"
+        android:text="Sign out"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.697" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

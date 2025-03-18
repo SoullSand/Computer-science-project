@@ -34,6 +34,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegister.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null)
+        {
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+            LoginActivity.this.finish();
+        }
     }
 
     @Override

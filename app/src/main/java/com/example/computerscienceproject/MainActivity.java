@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnGame, btnStats, btnLeaderboard, btnSettings;
+    private Button btnGame, btnStats, btnLeaderboard, btnSettings, btnSignout;
     private ActivityResultLauncher<Intent> launcher;
-
+    private FBModule fbModule;
     private String difficulty;
 
     @Override
@@ -27,13 +29,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStats = findViewById(R.id.btnStats);
         btnLeaderboard = findViewById(R.id.btnLeaderBoard);
         btnSettings = findViewById(R.id.btnSettings);
+        btnSignout = findViewById(R.id.btnSignOut);
 
         btnGame.setOnClickListener(this);
         btnStats.setOnClickListener(this);
         btnLeaderboard.setOnClickListener(this);
         btnSettings.setOnClickListener(this);
+        btnSignout.setOnClickListener(this);
 
         difficulty = "EASY";
+
+        fbModule = new FBModule(this);
 
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -68,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent i = new Intent(this, SettingsActivity.class);
             i.putExtra("Difficulty", difficulty);
             launcher.launch(i);
+        }
+        if (v == btnSignout)
+        {
+            fbModule.SignOut();
         }
     }
 }
