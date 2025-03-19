@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout canvasLayout = findViewById(R.id.canvasLL);
 
         Intent intent = getIntent();
-        String difficulty = intent.getStringExtra("Difficulty");
+        Difficulties difficulty = Difficulties.valueOf(intent.getStringExtra("Difficulty"));
 
         tvFlags = findViewById(R.id.tvFlags);
         tvTimer = findViewById(R.id.tvTimer);

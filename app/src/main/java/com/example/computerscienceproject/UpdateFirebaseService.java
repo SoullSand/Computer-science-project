@@ -40,7 +40,7 @@ public class UpdateFirebaseService extends Service {
     }
     private void SetRecord(Intent intent)
     {
-        String difficulty = intent.getStringExtra("difficulty");
+        Difficulties difficulty = Difficulties.valueOf(intent.getStringExtra("difficulty"));
         int time = intent.getIntExtra("time", 999);
         fbModule.SetNewRecord(difficulty, time);
         stopSelf();

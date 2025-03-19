@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnGame, btnStats, btnLeaderboard, btnSettings, btnSignout;
     private ActivityResultLauncher<Intent> launcher;
     private FBModule fbModule;
-    private String difficulty;
+    private Difficulties difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSettings.setOnClickListener(this);
         btnSignout.setOnClickListener(this);
 
-        difficulty = "EASY";
+        difficulty = Difficulties.EASY;
 
         fbModule = new FBModule(this);
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onActivityResult(ActivityResult o) {
                         if (o.getResultCode() == RESULT_OK) {
                             Intent intent = o.getData();
-                            difficulty = intent.getStringExtra("Difficulty");
+                            difficulty = Difficulties.valueOf(intent.getStringExtra("Difficulty"));
                         }
                     }
                 }
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v == btnGame) {
             Intent i = new Intent(this, GameActivity.class);
-            i.putExtra("Difficulty", difficulty);
+            i.putExtra("Difficulty", difficulty.toString());
             startActivity(i);
         }
         if (v == btnStats) {
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v == btnSettings) {
             Intent i = new Intent(this, SettingsActivity.class);
-            i.putExtra("Difficulty", difficulty);
+            i.putExtra("Difficulty", difficulty.toString());
             launcher.launch(i);
         }
         if (v == btnSignout)

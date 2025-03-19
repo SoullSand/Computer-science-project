@@ -1,11 +1,8 @@
 package com.example.computerscienceproject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,8 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 // google explanations
 // https://firebase.google.com/docs/database/android/lists-of-data#java_1
@@ -36,29 +31,29 @@ public class FBModule {
         this.context = context;
         fbAuth = FirebaseAuth.getInstance();
         if (context instanceof StatsActivity) {
-            GetUserStats();
+            GetCurrentUserStats();
         }
-        GetUsersFromFB("EASY");
+        GetUsersFromFB(Difficulties.EASY);
     }
 
     public void createUserStorage(String name) {
         // Write name of user and default records for future use
         userStorage = database.getReference("Users").child((fbAuth.getUid()));
         userStorage.child("name").setValue(name);
-        userStorage.child("EASYRecord").setValue(1000);
-        userStorage.child("MEDIUMRecord").setValue(1000);
-        userStorage.child("HARDRecord").setValue(1000);
+        userStorage.child(Difficulties.EASY.toString()).setValue(1000);
+        userStorage.child(Difficulties.MEDIUM.toString()).setValue(1000);
+        userStorage.child(Difficulties.HARD.toString()).setValue(1000);
     }
 
-    public void SetNewRecord(String difficulty, int time) {
+    public void SetNewRecord(Difficulties difficulty, int time) {
         userStorage = database.getReference("Users").child((fbAuth.getUid()));
         userStorage.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String recordLocation = difficulty + "Record";
+                String recordLocation = difficulty.toString();
                 //cast firebase record to long and then use Math.toIntExact to cast to int
-                int currentRecord = Math.toIntExact((long) snapshot.child(recordLocation).getValue());
+                int currentRecord = Math.toIntExact((Long) snapshot.child(recordLocation).getValue());
                 if (time < currentRecord) {
                     userStorage.child(recordLocation).setValue(time);
                 }
@@ -78,15 +73,19 @@ public class FBModule {
         context.startActivity(i);
     }
 
-    public void GetUserStats() {
+    public void GetCurrentUserStats() {
         userStorage = database.getReference("Users").child((fbAuth.getUid()));
         userStorage.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String username = snapshot.child("name").getValue().toString();
-                int easyRecord = Integer.parseInt((snapshot.child("EASYRecord").getValue()).toString());
-                int mediumRecord = Integer.parseInt((snapshot.child("MEDIUMRecord").getValue()).toString());
-                int hardRecord = Integer.parseInt((snapshot.child("HARDRecord").getValue()).toString());
+                String easy = snapshot.child(Difficulties.EASY.toString()).getValue().toString();
+                String medium = snapshot.child(Difficulties.MEDIUM.toString()).getValue().toString();
+                String hard = snapshot.child(Difficulties.HARD.toString()).getValue().toString();
+
+                int easyRecord = Integer.parseInt(easy);
+                int mediumRecord = Integer.parseInt(medium);
+                int hardRecord = Integer.parseInt(hard);
                 User user = new User(username, easyRecord, mediumRecord, hardRecord);
                 ((StatsActivity) context).SetStatsText(user);
             }
@@ -106,8 +105,8 @@ public class FBModule {
         });
     }
 
-    public void GetUsersFromFB(String difficulty) {
-        Query query = database.getReference("Users").orderByChild(difficulty + "Record").limitToFirst(10);
+    public void GetUsersFromFB(Difficulties difficulty) {
+        Query query = database.getReference("Users").orderByChild(difficulty.toString()).limitToFirst(10);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -117,9 +116,13 @@ public class FBModule {
                     // for each user file in firebase
                     for (DataSnapshot snap : snapshot.getChildren()) {
                         String username = snap.child("name").getValue().toString();
-                        int easyRecord = Integer.parseInt((snap.child("EASYRecord").getValue()).toString());
-                        int mediumRecord = Integer.parseInt((snap.child("MEDIUMRecord").getValue()).toString());
-                        int hardRecord = Integer.parseInt((snap.child("HARDRecord").getValue()).toString());
+                        String easy = snap.child(Difficulties.EASY.toString()).getValue().toString();
+                        String medium = snap.child(Difficulties.MEDIUM.toString()).getValue().toString();
+                        String hard = snap.child(Difficulties.HARD.toString()).getValue().toString();
+
+                        int easyRecord = Integer.parseInt(easy);
+                        int mediumRecord = Integer.parseInt(medium);
+                        int hardRecord = Integer.parseInt(hard);
                         User user = new User(username, easyRecord, mediumRecord, hardRecord);
                         ((LeaderboardActivity) context).AddUserToList(user);
                     }

@@ -32,8 +32,9 @@ public class SettingsActivity extends AppCompatActivity implements RadioGroup.On
         btnReturn.setOnClickListener(this);
 
         Intent intent = getIntent();
-        String str = intent.getStringExtra("Difficulty");
-        setDefaultCheckButton(str);
+        Difficulties difficulty = Difficulties.valueOf(intent.getStringExtra("Difficulty"));
+        String selectedDifficulty = String.valueOf(difficulty);
+        setDefaultCheckButton(selectedDifficulty);
     }
 
     @Override
@@ -45,22 +46,22 @@ public class SettingsActivity extends AppCompatActivity implements RadioGroup.On
     public void onClick(View v) {
         Intent intent = new Intent();
         if (rbSelected == rbEasy) {
-            intent.putExtra("Difficulty", "EASY");
+            intent.putExtra("Difficulty", Difficulties.EASY.toString());
         } else if (rbSelected == rbMedium) {
-            intent.putExtra("Difficulty", "MEDIUM");
+            intent.putExtra("Difficulty", Difficulties.MEDIUM.toString());
         } else if (rbSelected == rbHard) {
-            intent.putExtra("Difficulty", "HARD");
+            intent.putExtra("Difficulty", Difficulties.HARD.toString());
         }
         setResult(RESULT_OK, intent);
         finish();
     }
 
     private void setDefaultCheckButton(String str) {
-        if (str.equals("EASY")) {
+        if (str.equals(Difficulties.EASY.toString())) {
             rbEasy.setChecked(true);
-        } else if (str.equals("MEDIUM")) {
+        } else if (str.equals(Difficulties.MEDIUM.toString())) {
             rbMedium.setChecked(true);
-        } else if (str.equals("HARD")) {
+        } else if (str.equals(Difficulties.HARD.toString())) {
             rbHard.setChecked(true);
         }
     }

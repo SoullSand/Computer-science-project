@@ -21,12 +21,12 @@ public class BoardGame extends View {
     private int firstShownTileXIndex = 0, firstShownTileYIndex = 0;
     private int lastShownTileXIndex = 0, lastShownTileYIndex = 0;
     private int clickDownX, clickDownY, clickUpX, clickUpY;
-    private String difficulty;
+    private Difficulties difficulty;
     private GameActivity gameActivity;
     private GameButtons selectedButton;
     private final int SHOWN_X_TILES = 8, SHOWN_Y_TILES = 11;
 
-    public BoardGame(Context context, String difficulty) {
+    public BoardGame(Context context, Difficulties difficulty) {
         super(context);
         this.context = context;
 
@@ -45,24 +45,20 @@ public class BoardGame extends View {
     }
 
     private void SetMapPropertiesByDifficulty() {
-        switch (difficulty) {
-            case "EASY": {
-                xMapSize = 16;
-                yMapSize = 16;
-                numberOfBombs = 1;
-                break;
-            }
-            case "MEDIUM": {
-                xMapSize = 16;
-                yMapSize = 16;
-                numberOfBombs = 40;
-                break;
-            }
-            case "HARD": {
-                xMapSize = 16;
-                yMapSize = 16;
-                numberOfBombs = 99;
-            }
+        if (difficulty == Difficulties.EASY) {
+            xMapSize = 16;
+            yMapSize = 16;
+            numberOfBombs = 20;
+        }
+        else if(difficulty == Difficulties.MEDIUM) {
+            xMapSize = 16;
+            yMapSize = 16;
+            numberOfBombs = 40;
+        }
+        else if(difficulty == Difficulties.HARD) {
+            xMapSize = 16;
+            yMapSize = 16;
+            numberOfBombs = 99;
         }
     }
 
@@ -161,7 +157,7 @@ public class BoardGame extends View {
 
                 Intent intent = new Intent(context, UpdateFirebaseService.class);
                 intent.putExtra("action", "SetRecord");
-                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("difficulty", difficulty.toString());
                 intent.putExtra("time", gameActivity.getTime());
                 context.startService(intent);
 

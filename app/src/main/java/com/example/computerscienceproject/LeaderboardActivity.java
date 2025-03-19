@@ -57,15 +57,15 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
         allUsers.clear();
         if (v == btnEasy)
         {
-            fbModule.GetUsersFromFB("EASY");
+            fbModule.GetUsersFromFB(Difficulties.EASY);
         }
         if (v == btnMedium)
         {
-            fbModule.GetUsersFromFB("MEDIUM");
+            fbModule.GetUsersFromFB(Difficulties.MEDIUM);
         }
         if (v == btnHard)
         {
-            fbModule.GetUsersFromFB("HARD");
+            fbModule.GetUsersFromFB(Difficulties.HARD);
         }
         if (v == btnReturn)
         {

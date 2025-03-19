@@ -24,10 +24,6 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public LeaderboardAdapter(Context context, List<User> recordsList) {
         this.context = context;
         this.recordsList = recordsList;
-
-
-        //Query query = database.getReference().orderByChild("EASY").limitToFirst(10);
-
     }
 
     @NonNull
@@ -42,7 +38,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        // read eachtime from arraylist object and write to listview Item
+        // read each user from arraylist and write the stats in the leaderboard intent
         User user = recordsList.get(position);
         holder.tvName.setText("#" + (position+1) + "   " + user.getName());
         SetRecordText(holder, user);
