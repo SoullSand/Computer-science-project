@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package UserStats;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import Settings.Difficulties;
+import com.example.computerscienceproject.FBModule;
+import com.example.computerscienceproject.R;
+
 import java.util.ArrayList;
+
+import UserAuth.User;
 
 public class LeaderboardActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnReturn, btnEasy, btnMedium, btnHard;

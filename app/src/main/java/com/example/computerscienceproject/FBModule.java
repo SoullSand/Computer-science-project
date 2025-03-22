@@ -16,6 +16,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import Settings.Difficulties;
+import UserAuth.LoginActivity;
+import UserAuth.User;
+import UserStats.LeaderboardActivity;
+import UserStats.StatsActivity;
+
 // google explanations
 // https://firebase.google.com/docs/database/android/lists-of-data#java_1
 

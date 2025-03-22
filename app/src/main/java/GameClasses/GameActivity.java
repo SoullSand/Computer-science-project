@@ -1,9 +1,11 @@
-package com.example.computerscienceproject;
+package GameClasses;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,21 +14,25 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import Settings.Difficulties;
+import com.example.computerscienceproject.R;
+
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnReset, btnFlag, btnClick, btnMove, btnReturn;
     private TextView tvFlags, tvTimer;
     private BoardGame boardGame;
     public Handler handler;
-    private TimerThread timer;
+    protected TimerThread timer;
     private int time;
+    private GameButtons button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-
+        button = GameButtons.CLICK;
 
         LinearLayout canvasLayout = findViewById(R.id.canvasLL);
 
@@ -51,15 +57,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         btnMove.setOnClickListener(this);
         btnReturn.setOnClickListener(this);
 
+        highlightSelectedButton();
+
         updateTimerView();
 
         timer = new TimerThread(this);
         timer.start();
+        timer.startTimer();
     }
 
     public void resetGame() {
         boardGame.restart();
         time = 0;
+        timer.startTimer();
     }
 
     public void updateFlagCountView(int amount) {
@@ -72,16 +82,41 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             resetGame();
         }
         if (v == btnFlag) {
-            boardGame.setSelectedButton(GameButtons.FLAG);
+            setSelectedButton(GameButtons.FLAG);
         }
         if (v == btnClick) {
-            boardGame.setSelectedButton(GameButtons.CLICK);
+            setSelectedButton(GameButtons.CLICK);
         }
         if (v == btnMove) {
-            boardGame.setSelectedButton(GameButtons.MOVE);
+            setSelectedButton(GameButtons.MOVE);
         }
         if (v == btnReturn) {
             finish();
+        }
+        highlightSelectedButton();
+    }
+    private void setSelectedButton(GameButtons button)
+    {
+        this.button = button;
+        boardGame.updateSelectedButton(button);
+    }
+    private void highlightSelectedButton()
+    {
+        // 0x252222 color code of original button background
+        btnFlag.setBackgroundColor(0x252222);
+        btnClick.setBackgroundColor(0x252222);
+        btnMove.setBackgroundColor(0x252222);
+        if (button == GameButtons.FLAG)
+        {
+            btnFlag.setBackgroundColor(Color.DKGRAY);
+        }
+        else if (button == GameButtons.CLICK)
+        {
+            btnClick.setBackgroundColor(Color.DKGRAY);
+        }
+        else if (button == GameButtons.MOVE)
+        {
+            btnMove.setBackgroundColor(Color.DKGRAY);
         }
     }
 
@@ -113,10 +148,5 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     {
         time = 0;
     }
-    public void stopOrStartTimer()
-    {
-        timer.stopOrStartTimer();
-    }
-
     public int getTime(){return time;}
 }

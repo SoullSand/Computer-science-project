@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package Settings;
 
 public enum Difficulties {
     EASY,

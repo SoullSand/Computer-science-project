@@ -1,10 +1,12 @@
-package com.example.computerscienceproject;
+package GameClasses;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.computerscienceproject.R;
 
 public class CustomDialog extends Dialog implements View.OnClickListener {
 
@@ -30,7 +32,7 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        ((GameActivity) context).stopOrStartTimer();
+        ((GameActivity) context).timer.stopTimer();
         if (btnYes == view) {
             ((GameActivity) context).resetGame();
             super.dismiss();

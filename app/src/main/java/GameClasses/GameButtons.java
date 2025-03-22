@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package GameClasses;
 
 public enum GameButtons {
     FLAG,

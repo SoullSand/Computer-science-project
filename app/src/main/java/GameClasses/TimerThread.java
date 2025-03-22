@@ -1,14 +1,14 @@
-package com.example.computerscienceproject;
+package GameClasses;
 
 import android.content.Context;
 import android.os.Handler;
 
 public class TimerThread extends Thread {
-    private boolean isWin;
+    private boolean active;
     private Handler handler;
 
     public TimerThread(Context context) {
-        isWin = false;
+        active = false;
         handler = ((GameActivity) context).handler;
     }
 
@@ -17,7 +17,7 @@ public class TimerThread extends Thread {
         super.run();
         while (true) {
             try {
-                if (!isWin)
+                if (active)
                 {
                     Thread.sleep(1000);
                     handler.sendEmptyMessage(0);
@@ -27,8 +27,12 @@ public class TimerThread extends Thread {
             }
         }
     }
-    public void stopOrStartTimer()
+    public void stopTimer()
     {
-        isWin = !isWin;
+        active = false;
+    }
+    public void startTimer()
+    {
+        active = true;
     }
 }

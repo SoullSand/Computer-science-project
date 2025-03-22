@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package UserAuth;
 
 public class User {
     private int easyRecord, mediumRecord, hardRecord;

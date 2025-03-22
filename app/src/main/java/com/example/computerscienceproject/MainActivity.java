@@ -13,6 +13,12 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import GameClasses.GameActivity;
+import Settings.Difficulties;
+import Settings.SettingsActivity;
+import UserStats.LeaderboardActivity;
+import UserStats.StatsActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnGame, btnStats, btnLeaderboard, btnSettings, btnSignout;

@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package GameClasses;
 
 import android.content.Context;
 import android.graphics.Color;

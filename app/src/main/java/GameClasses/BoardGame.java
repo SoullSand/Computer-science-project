@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package GameClasses;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+
+import Settings.Difficulties;
+import com.example.computerscienceproject.UpdateFirebaseService;
 
 import Tiles.BombTile;
 import Tiles.EmptyTile;
@@ -81,7 +84,7 @@ public class BoardGame extends View {
         drawBoard(canvas);
     }
     // sets the action button selected
-    public void setSelectedButton(GameButtons selectedButton) {
+    public void updateSelectedButton(GameButtons selectedButton) {
         this.selectedButton = selectedButton;
     }
 
@@ -149,12 +152,11 @@ public class BoardGame extends View {
             clickTile(tiles[lastShownTileXIndex][lastShownTileYIndex]);
 
             if (isLoss(tiles[lastShownTileXIndex][lastShownTileYIndex])) {
-                gameActivity.stopOrStartTimer();
+                gameActivity.timer.stopTimer();
                 createDialog("Lost :(");
             }
             if (isWin()) {
-                gameActivity.stopOrStartTimer();
-
+                gameActivity.timer.stopTimer();
                 Intent intent = new Intent(context, UpdateFirebaseService.class);
                 intent.putExtra("action", "SetRecord");
                 intent.putExtra("difficulty", difficulty.toString());
@@ -180,7 +182,10 @@ public class BoardGame extends View {
             clickNumberTile(tile);
         } else {
             tiles[lastShownTileXIndex][lastShownTileYIndex].click();
-
+            if (isLoss(tiles[lastShownTileXIndex][lastShownTileYIndex])) {
+                gameActivity.timer.stopTimer();
+                createDialog("Lost :(");
+            }
         }
     }
     // clicks an empty tile and all tiles around it
@@ -205,7 +210,7 @@ public class BoardGame extends View {
     private void clickNumberTile(Tile tile) {
         tile.click();
         int tileNumber = ((NumberTile) tile).getNumber();
-        int flaggedBombCount = getSurroundingFlaggedBombs(tile);
+        int flaggedBombCount = getSurroundingFlaggedTiles(tile);
 
         /* enables the option to reveals the non-bomb tiles around the tile
          if all the number on the tile equals to the number of the bombs flagged*/
@@ -222,6 +227,11 @@ public class BoardGame extends View {
                                 && newTile instanceof EmptyTile) {
                             clickEmptyTile(newTile);
                         }
+                        else if (isLoss(newTile))
+                        {
+                            gameActivity.timer.stopTimer();
+                            createDialog("Lost :(");
+                        }
                         // if tile isn't an empty tile reveal it normally
                         else if (newTile.getIsHidden()) {
                             newTile.click();
@@ -233,22 +243,21 @@ public class BoardGame extends View {
     }
 
     // Gets the amount of flagged bombs around the tile
-    private int getSurroundingFlaggedBombs(Tile tile) {
-        int flaggedBombCount = 0;
+    private int getSurroundingFlaggedTiles(Tile tile) {
+        int flaggedTileCount = 0;
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 // if the checked tiles aren't out of bounds
                 if (tile.getX() - i >= 0 && tile.getX() - i < yMapSize
                         && tile.getY() - j >= 0 && tile.getY() - j < xMapSize) {
                     // adds the number of bombs
-                    if (tiles[tile.getX() - i][tile.getY() - j] instanceof BombTile
-                            && tiles[tile.getX() - i][tile.getY() - j].getIsFlagged()) {
-                        flaggedBombCount++;
+                    if (tiles[tile.getX() - i][tile.getY() - j].getIsFlagged()) {
+                        flaggedTileCount++;
                     }
                 }
             }
         }
-        return flaggedBombCount;
+        return flaggedTileCount;
     }
 
     // moves the shown board around

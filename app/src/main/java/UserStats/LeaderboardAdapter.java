@@ -1,4 +1,4 @@
-package com.example.computerscienceproject;
+package UserStats;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,9 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.computerscienceproject.R;
 import com.google.firebase.database.Query;
 
 import java.util.List;
+
+import UserAuth.User;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.UserViewHolder> {
 
