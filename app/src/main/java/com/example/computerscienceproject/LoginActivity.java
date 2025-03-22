@@ -50,24 +50,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
 
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+            if (email.length() == 0) {
+                etEmail.setError("Email is required");
+            }
+            else if (password.length() == 0) {
+                etPassword.setError("Password is required");
+            }
+            else
+            {
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
 
-                                FBModule fb = new FBModule(LoginActivity.this);
-                                // Sign in success, update UI with the signed-in user's information
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(i);
-                                LoginActivity.this.finish();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(LoginActivity.this, "login failed.", Toast.LENGTH_SHORT).show();
+                                    FBModule fb = new FBModule(LoginActivity.this);
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    LoginActivity.this.finish();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(LoginActivity.this, "login failed.", Toast.LENGTH_SHORT).show();
 
+                                }
                             }
-                        }
-                    });
+                        });
+
+            }
         }
         else if (v == btnRegister)
         {
