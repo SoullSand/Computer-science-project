@@ -22,8 +22,6 @@ import UserAuth.User;
 import UserStats.LeaderboardActivity;
 import UserStats.StatsActivity;
 
-// google explanations
-// https://firebase.google.com/docs/database/android/lists-of-data#java_1
 
 
 public class FBModule {

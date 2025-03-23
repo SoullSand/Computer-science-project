@@ -2,6 +2,7 @@ package GameClasses;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import com.example.computerscienceproject.R;
 public class CustomDialog extends Dialog implements View.OnClickListener {
 
     private Button btnYes, btnNo;
-    private TextView tvWinLose;
+    private TextView tvWinLose, tvTimer;
 
     private Context context;
 
@@ -21,6 +22,7 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         this.context = context;
         setContentView(R.layout.activity_custom_dialog);
 
+        tvTimer = findViewById(R.id.tvTimer);
         tvWinLose = findViewById(R.id.tvWinLose);
         tvWinLose.setText("You " + winOrLose);
 
@@ -28,6 +30,18 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         btnNo = findViewById(R.id.btnNo);
         btnYes.setOnClickListener(this);
         btnNo.setOnClickListener(this);
+
+        new CountDownTimer(15000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                tvTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
+                // logic to set the EditText could go here
+            }
+            public void onFinish() {
+                ((GameActivity) context).finish();
+            }
+
+        }.start();
     }
 
     @Override
