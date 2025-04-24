@@ -13,7 +13,6 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
 
     private Button btnYes, btnNo;
     private TextView tvWinLose, tvTimer;
-
     private Context context;
 
     public CustomDialog(Context context, String winOrLose) {
