@@ -55,8 +55,8 @@ public class SettingsActivity extends AppCompatActivity implements RadioGroup.On
         rbSelected = findViewById(checkedId);
         Intent intent = new Intent();
         /* tts.speak says the text out loud,
-        first parameter is for adding a text to the queue of said text
-         instead of replacing the whole queue. */
+        secong parameter is for replacing all text in the queue to the  of said text
+         instead of adding text queue. */
         if (rbSelected == rbEasy) {
             intent.putExtra("Difficulty", Difficulties.EASY.toString());
             tts.speak("Difficulty easy", TextToSpeech.QUEUE_FLUSH, null, null);
