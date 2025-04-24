@@ -182,10 +182,6 @@ public class BoardGame extends View {
             clickNumberTile(tile);
         } else {
             tiles[lastShownTileXIndex][lastShownTileYIndex].click();
-            if (isLoss(tiles[lastShownTileXIndex][lastShownTileYIndex])) {
-                gameActivity.timer.stopTimer();
-                createDialog("Lost :(");
-            }
         }
     }
     // clicks an empty tile and all tiles around it
