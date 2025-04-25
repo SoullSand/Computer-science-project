@@ -73,7 +73,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void updateFlagCountView(int amount) {
-        tvFlags.setText("Flags: " + amount);
+        tvFlags.setText("Bombs: " + amount);
     }
 
     @Override

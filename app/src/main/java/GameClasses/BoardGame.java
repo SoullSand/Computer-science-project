@@ -1,5 +1,6 @@
 package GameClasses;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -10,6 +11,9 @@ import androidx.annotation.NonNull;
 
 import Settings.Difficulties;
 import com.example.computerscienceproject.UpdateFirebaseService;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 import Tiles.BombTile;
 import Tiles.EmptyTile;
@@ -93,6 +97,8 @@ public class BoardGame extends View {
         map.generateMap(numberOfBombs);
         tiles = map.getMap();
         gameActivity.resetTimer();
+        numberOfFlags = 0;
+        updateFlagCount();
         invalidate();
     }
     // returns if player won
@@ -117,8 +123,14 @@ public class BoardGame extends View {
 
     // game win or lose dialog
     private void createDialog(String winLose) {
-        CustomDialog customDialog = new CustomDialog(context, winLose);
-        customDialog.show();
+        Activity activity = (Activity) context;
+        /* if the current activity isn't in the process of destroying itself
+        it will show the dialog. this prevents a crash when attempting to show the dialog
+        while the activity is still closing*/
+        if (!activity.isFinishing() && !activity.isDestroyed()) {
+            CustomDialog customDialog = new CustomDialog(context, winLose);
+            customDialog.show();
+        }
     }
 
     @Override
@@ -145,13 +157,15 @@ public class BoardGame extends View {
 
     // does the action according to the selected button
     private void doButtonAction() {
+        // tile that is being clicked
+        Tile tile = tiles[lastShownTileXIndex][lastShownTileYIndex];
         if (selectedButton == GameButtons.MOVE) {
             moveBoard();
         }
         if (selectedButton == GameButtons.CLICK) {
-            clickTile(tiles[lastShownTileXIndex][lastShownTileYIndex]);
+            clickTile(tile);
 
-            if (isLoss(tiles[lastShownTileXIndex][lastShownTileYIndex])) {
+            if (isLoss(tile)) {
                 gameActivity.timer.stopTimer();
                 createDialog("Lost :(");
             }
@@ -167,8 +181,12 @@ public class BoardGame extends View {
             }
         }
         if (selectedButton == GameButtons.FLAG) {
-            tiles[lastShownTileXIndex][lastShownTileYIndex].flag();
-            numberOfFlags++;
+            // check if the clicked tile is flagged or not to change flags counter
+            if (tile.getIsFlagged())
+                numberOfFlags--;
+            else
+                numberOfFlags++;
+            tile.flag();
             updateFlagCount();
         }
     }
@@ -181,21 +199,40 @@ public class BoardGame extends View {
         } else if (tile instanceof NumberTile) {
             clickNumberTile(tile);
         } else {
-            tiles[lastShownTileXIndex][lastShownTileYIndex].click();
+            tile.click();
         }
     }
     // clicks an empty tile and all tiles around it
-    private void clickEmptyTile(Tile tile) {
-        if (tile instanceof EmptyTile) {
-            for (int i = -1; i < 2; i++) {
-                for (int j = -1; j < 2; j++) {
-                    if (tile.getX() - i >= 0 && tile.getX() - i < yMapSize
-                            && tile.getY() - j >= 0 && tile.getY() - j < xMapSize) {
-                        // the current tile the loops are on
-                        Tile newTile = tiles[tile.getX() - i][tile.getY() - j];
-                        if (newTile.getIsHidden()) {
-                            newTile.click();
-                            clickEmptyTile(newTile);
+    private void clickEmptyTile(Tile startTile) {
+        /* uses a queue in order to prevent stack overflow. if I were to use a normal recursion,
+        a large number of empty tiles next to each other would cause stack overflow.
+        with a linked list I could find all possible tiles that I need to click on first
+        before clicking them, that way I don't use a large amounts of memory */
+        Queue<Tile> queue = new LinkedList<>();
+        // add a tile to the queue
+        queue.add(startTile);
+        // continues the
+        while (!queue.isEmpty()) {
+            // .poll removes an item from the queue and retrieves it
+            Tile currentTile = queue.poll();
+
+            if (currentTile.getIsHidden()) {
+                currentTile.click();
+
+                // If the current tile is still an EmptyTile, continue checking its neighbors
+                if (currentTile instanceof EmptyTile) {
+                    for (int i = -1; i < 2; i++) {
+                        for (int j = -1; j < 2; j++) {
+                            int newX = currentTile.getX() - i;
+                            int newY = currentTile.getY() - j;
+
+                            // checks if currently checked tile is out of bounds
+                            if (newX >= 0 && newX < yMapSize && newY >= 0 && newY < xMapSize) {
+                                Tile neighbor = tiles[newX][newY];
+                                if (neighbor.getIsHidden()) {
+                                    queue.add(neighbor);
+                                }
+                            }
                         }
                     }
                 }
@@ -208,7 +245,7 @@ public class BoardGame extends View {
         int tileNumber = ((NumberTile) tile).getNumber();
         int flaggedBombCount = getSurroundingFlaggedTiles(tile);
 
-        /* enables the option to reveals the non-bomb tiles around the tile
+        /* enables the option to reveals the neighbor tiles
          if all the number on the tile equals to the number of the bombs flagged*/
         if (flaggedBombCount == tileNumber) {
             for (int i = -1; i < 2; i++) {
@@ -218,9 +255,8 @@ public class BoardGame extends View {
                             && tile.getY() - j >= 0 && tile.getY() - j < xMapSize) {
                         // the current tile the loops are on
                         Tile newTile = tiles[tile.getX() - i][tile.getY() - j];
-                        // if tile is an empty tile and is hidden reveal it and redo the process
-                        if (newTile.getIsHidden()
-                                && newTile instanceof EmptyTile) {
+                        // if tile is an empty tile reveal it
+                        if (newTile instanceof EmptyTile) {
                             clickEmptyTile(newTile);
                         }
                         else if (isLoss(newTile))

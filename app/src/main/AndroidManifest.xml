@@ -41,7 +41,8 @@
             android:exported="false" />
         <activity
             android:name="GameClasses.CustomDialog"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name="GameClasses.GameActivity"
             android:exported="false" />
