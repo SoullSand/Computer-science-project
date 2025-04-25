@@ -101,6 +101,7 @@ class Tiles.NumberTile {
 }
 
 
+
 class UserAuth.RegisterActivity {
 ~ EditText etUsername
 ~ Button btnRegister
