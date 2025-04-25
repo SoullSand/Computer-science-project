@@ -37,7 +37,12 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
                 // logic to set the EditText could go here
             }
             public void onFinish() {
-                ((GameActivity) context).finish();
+                /* prevents a crash when the timer hits 0
+                 and the dialog is still open while the game activity is closing*/
+                if (!((GameActivity) context).isFinishing() && !((GameActivity) context).isDestroyed()) {
+                    dismiss(); // dismiss the dialog first and then closes the activity
+                    ((GameActivity) context).finish();
+                }
             }
 
         }.start();
@@ -59,4 +64,5 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         super.dismiss();
         ((GameActivity) context).finish();
     }
+
 }
