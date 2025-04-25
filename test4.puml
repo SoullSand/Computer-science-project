@@ -1,0 +1,254 @@
+@startuml
+class Tiles.BombTile {
++ void draw(Canvas,int,int)
+}
+
+class GameClasses.CustomDialog {
+- Button btnYes
+- TextView tvWinLose
+- Context context
++ void onClick(View)
++ void dismiss()
+}
+
+
+class com.example.computerscienceproject.FBModule {
+~ FirebaseDatabase database
+~ FirebaseAuth fbAuth
+~ DatabaseReference userStorage
+~ Context context
++ void createUserStorage(String)
++ void SetNewRecord(Difficulties,int)
++ void SignOut()
++ void GetCurrentUserStats()
++ void createNewUser(String,String,String)
++ void GetUsersFromFB(Difficulties)
+}
+
+
+abstract class Tiles.Tile {
++ {static} int TILE_SIZE
+# int x
+# int y
+# Paint paint
+# boolean isHidden
+# boolean isFlagged
+# Context context
++ void click()
++ void flag()
++ void draw(Canvas,int,int)
++ boolean getIsFlagged()
++ int getX()
++ int getY()
++ boolean getIsHidden()
+}
+
+
+enum Settings.Difficulties {
++  EASY
++  MEDIUM
++  HARD
+}
+
+class com.example.computerscienceproject.UpdateFirebaseService {
+~ FBModule fbModule
+~ FirebaseAuth firebaseAuth
++ int onStartCommand(Intent,int,int)
+- void RegisterUser(Intent)
+- void SetRecord(Intent)
++ IBinder onBind(Intent)
+}
+
+
+class GameClasses.BoardGame {
+- Context context
+- Tile[][] tiles
+- Map map
+- int xMapSize
+- int firstShownTileXIndex
+- int lastShownTileXIndex
+- int clickDownX
+- Difficulties difficulty
+- GameActivity gameActivity
+- GameButtons selectedButton
+- int SHOWN_X_TILES
+- void SetMapPropertiesByDifficulty()
++ void updateFlagCount()
+- void drawBoard(Canvas)
+# void onDraw(Canvas)
++ void updateSelectedButton(GameButtons)
++ void restart()
++ boolean isWin()
+- boolean isLoss(Tile)
+- void createDialog(String)
++ boolean onTouchEvent(MotionEvent)
+- void doButtonAction()
+- void clickTile(Tile)
+- void clickEmptyTile(Tile)
+- void clickNumberTile(Tile)
+- int getSurroundingFlaggedTiles(Tile)
+- void moveBoard()
+- void validateMapPositioning()
+}
+
+
+class Tiles.NumberTile {
+- int number
++ void addOneToNumber()
++ int getNumber()
++ void draw(Canvas,int,int)
+- Bitmap getCorrectTilePicture()
+}
+
+
+class UserAuth.RegisterActivity {
+~ EditText etUsername
+~ Button btnRegister
+# void onCreate(Bundle)
++ void onClick(View)
+}
+
+
+class GameClasses.GameActivity {
+- Button btnReset
+- TextView tvFlags
+- BoardGame boardGame
++ Handler handler
+# TimerThread timer
+- int time
+- GameButtons button
+# void onCreate(Bundle)
++ void resetGame()
++ void updateFlagCountView(int)
++ void onClick(View)
+- void setSelectedButton(GameButtons)
+- void highlightSelectedButton()
++ void updateTimerView()
++ void resetTimer()
++ int getTime()
+}
+
+
+class UserAuth.LoginActivity {
+- FirebaseAuth mAuth
+~ EditText etEmail
+~ Button btnLogin
+# void onCreate(Bundle)
++ void onClick(View)
+}
+
+
+class UserStats.StatsActivity {
+~ TextView tvUsername
+~ Button btnReturn
+# void onCreate(Bundle)
++ void SetStatsText(User)
++ void onClick(View)
+}
+
+
+class com.example.computerscienceproject.MainActivity {
+- Button btnGame
+- ActivityResultLauncher<Intent> launcher
+- FBModule fbModule
+- Difficulties difficulty
+# void onCreate(Bundle)
++ void onClick(View)
+}
+
+
+class UserStats.LeaderboardAdapter {
+- Context context
+- List<User> recordsList
++ UserViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(UserViewHolder,int)
+- void SetRecordText(UserViewHolder,User)
++ int getItemCount()
+}
+
+
+class UserAuth.User {
+- int easyRecord
+- String name
++ int getEasyRecord()
++ int getMediumRecord()
++ int getHardRecord()
++ String getName()
+}
+
+
+class GameClasses.TimerThread {
+- boolean active
+- Handler handler
++ void run()
++ void stopTimer()
++ void startTimer()
+}
+
+
+class Tiles.EmptyTile {
++ void draw(Canvas,int,int)
+}
+
+enum GameClasses.GameButtons {
++  FLAG
++  CLICK
++  MOVE
+}
+
+class GameClasses.Map {
+- Tile[][] tiles
+- int xMapSize
+- Context context
++ void generateMap(int)
+- void generateEmptyMap()
+- void generateBombs(int)
++ Tile[][] getMap()
+- void addSurroundingNumbers(int,int)
+}
+
+
+class UserStats.LeaderboardActivity {
+~ Button btnReturn
+~ RecyclerView rvEasy
+~ LeaderboardAdapter leaderboardAdapter
+~ FBModule fbModule
+~ ArrayList<User> allUsers
+# void onCreate(Bundle)
++ void AddUserToList(User)
++ void ResetUserList()
++ void onClick(View)
+}
+
+
+class Settings.SettingsActivity {
+~ RadioGroup radioGroup
+~ RadioButton rbSelected
+~ RadioButton rbEasy
+~ Button btnReturn
+~ TextToSpeech tts
+# void onCreate(Bundle)
++ void onCheckedChanged(RadioGroup,int)
++ void onClick(View)
+- void setDefaultCheckButton(String)
+}
+
+Tile <|-- Tiles.BombTile
+Tile <|-- Tiles.EmptyTile
+Tile <|-- Tiles.NumberTile
+BoardGame --> Tile
+BoardGame --> GameButtons
+BoardGame --> Map
+BoardGame --> Difficulties
+GameActivity --> BoardGame
+GameActivity --> TimerThread
+GameActivity --> GameClasses.CustomDialog
+GameActivity --> GameClasses.GameButtons
+MainActivity --> FBModule
+MainActivity --> Difficulties
+UpdateFirebaseService --> FBModule
+LeaderboardAdapter --> User
+LeaderboardActivity --> FBModule
+LeaderboardActivity --> User
+
+@enduml
