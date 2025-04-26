@@ -138,6 +138,7 @@ public class BoardGame extends View {
         }
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
+
         }
         if (event.getAction() == MotionEvent.ACTION_UP) {
             clickUpX = (int) event.getX();
