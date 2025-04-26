@@ -12,20 +12,16 @@ public abstract class Tile {
     public static final int TILE_SIZE = 130;
     protected int x;
     protected int y;
-    protected Paint paint;
     protected boolean isHidden;
     protected boolean isFlagged;
 
     protected Context context;
 
-    public Tile(int x, int y, int color, Context context) {
+    public Tile(int x, int y, Context context) {
         this.x = x;
         this.y = y;
         isFlagged = false;
         isHidden = true;
-
-        paint = new Paint();
-        paint.setColor(color);
 
         this.context = context;
     }

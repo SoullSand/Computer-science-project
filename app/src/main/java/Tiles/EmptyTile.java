@@ -8,8 +8,8 @@ import android.graphics.Canvas;
 import com.example.computerscienceproject.R;
 
 public class EmptyTile extends Tile {
-    public EmptyTile(int x, int y, int color, Context context) {
-        super(x, y, color, context);
+    public EmptyTile(int x, int y, Context context) {
+        super(x, y, context);
     }
 
     public void draw(Canvas canvas, int startingX, int startingY) {

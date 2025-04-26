@@ -1,7 +1,6 @@
 package GameClasses;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import java.util.Random;
 
@@ -32,10 +31,9 @@ public class Map {
 
     // sets the array tiles
     private void generateEmptyMap() {
-        int color = Color.GRAY;
         for (int i = 0; i < xMapSize; i++) {
             for (int j = 0; j < yMapSize; j++) {
-                tiles[i][j] = new EmptyTile(i, j, color, context);
+                tiles[i][j] = new EmptyTile(i, j, context);
             }
         }
     }
@@ -43,7 +41,6 @@ public class Map {
     // adds the bombs to the array
     private void generateBombs(int amountOfBombs) {
         Random rnd = new Random();
-        int color = Color.RED;
         for (int i = 0; i < amountOfBombs; i++) {
             int x = rnd.nextInt(xMapSize);
             int y = rnd.nextInt(yMapSize);
@@ -51,7 +48,7 @@ public class Map {
                 x = rnd.nextInt(xMapSize);
                 y = rnd.nextInt(yMapSize);
             }
-            tiles[x][y] = new BombTile(x, y, color, context);
+            tiles[x][y] = new BombTile(x, y, context);
             addSurroundingNumbers(x, y);
         }
     }
@@ -69,7 +66,7 @@ public class Map {
                     if (tiles[i][j] instanceof NumberTile) {
                         ((NumberTile) tiles[i][j]).addOneToNumber();
                     } else if (!(tiles[i][j] instanceof BombTile)) {
-                        tiles[i][j] = new NumberTile(i, j, Color.BLUE, 1, context);
+                        tiles[i][j] = new NumberTile(i, j, 1, context);
                     }
                 }
             }

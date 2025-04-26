@@ -9,8 +9,8 @@ import com.example.computerscienceproject.R;
 
 public class BombTile extends Tile {
 
-    public BombTile(int x, int y, int color, Context context) {
-        super(x, y, color, context);
+    public BombTile(int x, int y, Context context) {
+        super(x, y, context);
     }
 
     @Override

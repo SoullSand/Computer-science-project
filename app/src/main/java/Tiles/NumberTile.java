@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 
 import com.example.computerscienceproject.R;
 
@@ -12,15 +11,14 @@ public class NumberTile extends Tile {
 
     private int number;
 
-    public NumberTile(int x, int y, int color, int number, Context context) {
-        super(x, y, color, context);
+    public NumberTile(int x, int y, int number, Context context) {
+        super(x, y, context);
         this.number = number;
         this.context = context;
     }
 
     public void addOneToNumber() {
         number++;
-        paint.setColor(Color.GREEN);
     }
 
     public int getNumber() {
