@@ -14,7 +14,6 @@ public class NumberTile extends Tile {
     public NumberTile(int x, int y, int number, Context context) {
         super(x, y, context);
         this.number = number;
-        this.context = context;
     }
 
     public void addOneToNumber() {
