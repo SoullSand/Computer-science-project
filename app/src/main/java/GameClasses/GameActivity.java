@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void resetGame() {
         boardGame.restart();
-        time = 0;
+        resetTimer();
         timer.startTimer();
     }
 
@@ -94,11 +94,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
         highlightSelectedButton();
     }
-    private void setSelectedButton(GameButtons button)
-    {
-        this.button = button;
-        boardGame.setSelectedButton(button);
-    }
     private void highlightSelectedButton()
     {
         // 0x252222 color code of original button background
@@ -117,6 +112,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         {
             btnMove.setBackgroundColor(Color.DKGRAY);
         }
+    }
+    private void setSelectedButton(GameButtons button)
+    {
+        this.button = button;
+        boardGame.setSelectedButton(button);
     }
 
     public void updateTimerView() {

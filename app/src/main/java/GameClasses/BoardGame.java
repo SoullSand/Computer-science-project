@@ -201,14 +201,13 @@ public class BoardGame extends View {
     }
     // clicks an empty tile and all tiles around it
     private void clickEmptyTile(Tile startTile) {
-        /* uses a queue in order to prevent stack overflow. if I were to use a normal recursion,
-        a large number of empty tiles next to each other would cause stack overflow.
-        with a linked list I could find all possible tiles that I need to click on first
-        before clicking them, that way I don't use a large amounts of memory */
+        /* uses a queue in order to prevent stack overflow (Breadth-first Search).
+           this method finds all the tiles it needs to do something with unlike
+           Depth-first Search that does stuff with the first tile it finds- which causes
+           stack overflow due to too many calls of the function*/
         Queue<Tile> queue = new LinkedList<>();
         // add a tile to the queue
         queue.add(startTile);
-        // continues the
         while (!queue.isEmpty()) {
             // .poll removes an item from the queue and retrieves it
             Tile currentTile = queue.poll();
