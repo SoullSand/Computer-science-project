@@ -74,18 +74,15 @@ public class BoardGame extends View {
     }
 
     // draws the canvas
-    private void drawBoard(Canvas canvas) {
+    @Override
+    protected void onDraw(@NonNull Canvas canvas) {
+        super.onDraw(canvas);
         // if the first tile index shown is less than the total tiles shown
         for (int i = firstShownTileYIndex; i < SHOWN_Y_TILES + firstShownTileYIndex; i++) {
             for (int j = firstShownTileXIndex; j < SHOWN_X_TILES + firstShownTileXIndex; j++) {
                 tiles[j][i].draw(canvas, firstShownTileXIndex, firstShownTileYIndex);
             }
         }
-    }
-    @Override
-    protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
-        drawBoard(canvas);
     }
     // sets the action button selected
     public void updateSelectedButton(GameButtons selectedButton) {
