@@ -1,6 +1,5 @@
 package GameClasses;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -98,7 +97,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void setSelectedButton(GameButtons button)
     {
         this.button = button;
-        boardGame.updateSelectedButton(button);
+        boardGame.setSelectedButton(button);
     }
     private void highlightSelectedButton()
     {

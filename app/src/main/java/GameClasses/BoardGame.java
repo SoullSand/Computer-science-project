@@ -85,7 +85,7 @@ public class BoardGame extends View {
         }
     }
     // sets the action button selected
-    public void updateSelectedButton(GameButtons selectedButton) {
+    public void setSelectedButton(GameButtons selectedButton) {
         this.selectedButton = selectedButton;
     }
 
