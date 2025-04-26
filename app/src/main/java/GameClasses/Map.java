@@ -24,7 +24,6 @@ public class Map {
 
     // generates a new map
     public void generateMap(int amountOfBombs) {
-        tiles = new Tile[xMapSize][yMapSize];
         generateEmptyMap();
         generateBombs(amountOfBombs);
     }
