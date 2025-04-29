@@ -29,6 +29,17 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         this.recordsList = recordsList;
     }
 
+    public class UserViewHolder extends RecyclerView.ViewHolder{
+        TextView tvName, tvRecord;
+
+        public UserViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            tvName = itemView.findViewById(R.id.tvName);
+            tvRecord = itemView.findViewById(R.id.tvScore);
+        }
+    }
+
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -38,6 +49,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         View view = inflater.inflate(R.layout.activity_leaderboard_adapter, null);
         return new UserViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
@@ -86,15 +98,5 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     }
 
 
-    public class UserViewHolder extends RecyclerView.ViewHolder{
-        TextView tvName, tvRecord;
 
-        public UserViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            // TODO:
-            tvName = itemView.findViewById(R.id.tvName);
-            tvRecord = itemView.findViewById(R.id.tvScore);
-        }
-    }
 }

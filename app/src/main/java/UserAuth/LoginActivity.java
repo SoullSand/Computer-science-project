@@ -20,8 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
-    EditText etEmail, etPassword;
-    Button btnLogin, btnRegister;
+    private EditText etEmail, etPassword;
+    private Button btnLogin, btnRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +66,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-
-                                    FBModule fb = new FBModule(LoginActivity.this);
-                                    // Sign in success, update UI with the signed-in user's information
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);
                                     LoginActivity.this.finish();
