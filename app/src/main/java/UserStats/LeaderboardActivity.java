@@ -18,7 +18,7 @@ import UserAuth.User;
 
 public class LeaderboardActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnReturn, btnEasy, btnMedium, btnHard;
-    RecyclerView rvEasy;
+    RecyclerView recycleView;
     LeaderboardAdapter leaderboardAdapter;
     FBModule fbModule;
     ArrayList<User> allUsers;
@@ -28,8 +28,8 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
-        rvEasy = findViewById(R.id.rvEasy);
-        rvEasy.setLayoutManager(new LinearLayoutManager(this));
+        recycleView = findViewById(R.id.rvEasy);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
 
         btnReturn = findViewById(R.id.btnReturn);
         btnEasy = findViewById(R.id.btnEasy);
@@ -45,7 +45,7 @@ public class LeaderboardActivity extends AppCompatActivity implements View.OnCli
         allUsers = new ArrayList<User>();
 
         leaderboardAdapter = new LeaderboardAdapter(this, allUsers);
-        rvEasy.setAdapter(leaderboardAdapter);
+        recycleView.setAdapter(leaderboardAdapter);
     }
     public void AddUserToList(User user)
     {

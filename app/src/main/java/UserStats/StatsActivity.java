@@ -22,8 +22,6 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        FBModule fbModule = new FBModule(this);
-
         tvUsername = findViewById(R.id.tvUsername);
         tvEasyRecord = findViewById(R.id.tvEasyRecord);
         tvMediumRecord = findViewById(R.id.tvMediumRecord);

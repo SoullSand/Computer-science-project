@@ -45,6 +45,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         //inflating and returning our view holder
+        // in other words it creates a new line in the leaderboards to type a user into
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.activity_leaderboard_adapter, null);
         return new UserViewHolder(view);
@@ -53,7 +54,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        // read each user from arraylist and write the stats in the leaderboard intent
+        // read each user from arraylist and write the stats in the leaderboard lines
         User user = recordsList.get(position);
         holder.tvName.setText("#" + (position+1) + "   " + user.getName());
         SetRecordText(holder, user);
@@ -96,7 +97,4 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public int getItemCount() {
         return recordsList.size();
     }
-
-
-
 }
