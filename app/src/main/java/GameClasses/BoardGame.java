@@ -21,17 +21,17 @@ import Tiles.NumberTile;
 import Tiles.Tile;
 
 public class BoardGame extends View {
-    private Context context;
+    private final Context context;
     private Tile[][] tiles;
-    private Map map;
+    private final Map map;
     private int xMapSize, yMapSize, numberOfBombs, numberOfFlags = 0;
     private int firstShownTileXIndex = 0, firstShownTileYIndex = 0;
     private int lastShownTileXIndex = 0, lastShownTileYIndex = 0;
     private int clickDownX, clickDownY, clickUpX, clickUpY;
-    private Difficulties difficulty;
-    private GameActivity gameActivity;
+    private final Difficulties difficulty;
+    private final GameActivity gameActivity;
     private GameButtons selectedButton;
-    private final int SHOWN_X_TILES = 8, SHOWN_Y_TILES = 11;
+    private final static int SHOWN_X_TILES = 8, SHOWN_Y_TILES = 11;
 
     public BoardGame(Context context, Difficulties difficulty) {
         super(context);
@@ -84,7 +84,7 @@ public class BoardGame extends View {
             }
         }
     }
-    // sets the action button selected
+    // sets the action button selected2
     public void setSelectedButton(GameButtons selectedButton) {
         this.selectedButton = selectedButton;
     }

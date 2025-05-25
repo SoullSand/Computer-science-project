@@ -16,6 +16,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
     TextView tvUsername, tvEasyRecord, tvMediumRecord, tvHardRecord;
     Button btnReturn;
+    FBModule fbModule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
         btnReturn = findViewById(R.id.btnReturn);
         btnReturn.setOnClickListener(this);
+
+        fbModule = new FBModule(this);
     }
 
     public void SetStatsText(User user) {
